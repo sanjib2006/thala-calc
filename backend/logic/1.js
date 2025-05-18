@@ -13,7 +13,7 @@ module.exports = (name) => {
 
 🎉 THALA FOR A REASON! 🎉
 
-"${name}" is special because:
+"${cleanedName.toUpperCase()}" is special because:
 • It has exactly 7 letters
 • 7 is Dhoni's iconic jersey number
 • You're clearly a true THALA fan!
