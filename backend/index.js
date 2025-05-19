@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000; // Allow env config
 
 // Enhanced CORS setup (optional)
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-production-url.com'],
+  origin: ['https://thala-calc.vercel.app/', 'https://thala-calc.onrender.com'],
   methods: ['POST']
 }));
 
