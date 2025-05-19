@@ -1,58 +1,67 @@
-// thalaLogicAdvanced.js
+const { getPathsTo7 } = require('./digitPathCalc');
 
 /**
- * Checks if a name yields the number 7 via sum, product, or difference of its letters' positions.
+ * Converts a name to its numerical value and checks for a 7 path.
  * @param {string} name - The input name to evaluate.
- * @returns {string|null} A detailed Thala report or null if no check hits 7.
+ * @returns {string|null} The Thala message or null if no path reaches 7.
  */
 module.exports = (name) => {
-  // Normalize input: remove non-letters, convert to uppercase
   const cleanName = name.toUpperCase().replace(/[^A-Z]/g, '');
   if (!cleanName) return null;
 
-  // Compute letter values (A=1, B=2, ..., Z=26)
   const letters = [...cleanName];
   const letterValues = letters.map(char => char.charCodeAt(0) - 64);
-  const lettersSum = letterValues.reduce((sum, val) => sum + val, 0);
+  const total = letterValues.reduce((sum, val) => sum + val, 0);
 
-  // Extract digits from the total
-  const digits = String(lettersSum).split('').map(Number);
+  const pathsTo7 = getPathsTo7(total);
+  if (pathsTo7.length === 0) return null;
 
-  // Define operations with calculation and test
-  const operations = [
-    {
-      type: 'Sum',
-      result: digits.reduce((a, b) => a + b, 0),
-      format: () => `${digits.join(' + ')} = 7`
-    },
-    {
-      type: 'Product',
-      result: digits.reduce((a, b) => a * b, 1),
-      format: () => `${digits.join(' × ')} = 7`
-    },
-    {
-      type: 'Difference',
-      result: digits.length === 2 ? Math.abs(digits[0] - digits[1]) : null,
-      format: () => `|${digits[0]} - ${digits[1]}| = 7`
-    }
+  const [path, ops] = [pathsTo7[0][1], pathsTo7[0][2]];
+
+  const templates = [
+    // Template 1: Simplified Dramatic Format
+    () => [
+      `🧠 Analysis of "${cleanName}"`,
+      "",
+      "➡️ Letter values:",
+      letters.map((c, i) => `  ${c} = ${letterValues[i]}`).join('\n'),
+      `\n🧮 Total = ${total}`,
+      "",
+      `📈 Path to 7: ${path.join(' → ')}`,
+      "🔢 Steps:",
+      ops.map((step, i) => `  ${i + 1}. ${step}`).join('\n'),
+      "",
+      "🎉 YES! The journey ends in 7!",
+      "🎉 THALA FOR A REASON! 🎉",
+      "",
+      "💬 Even numbers acknowledge it...",
+      "This name echoes with greatness.",
+      "",
+      "#WhistlePodu 🦁💛 #7Magic #ThalaForAReason"
+    ].join('\n'),
+
+    // Template 2: Warrior Style (Simplified)
+    () => [
+      `⚔️ Warrior's Tale of "${cleanName}"`,
+      "",
+      "🔡 Strength in each letter:",
+      letters.map((c, i) => `${c}(${letterValues[i]})`).join(' + ') + ` = ${total}`,
+      "",
+      `🛣️ Path to 7: ${path.join(' → ')}`,
+      "🧠 Moves made:",
+      ops.map((step, i) => `  ${i + 1}. ${step}`).join('\n'),
+      "",
+      "🏆 Victory! 7 Achieved.",
+      "🎉 THALA FOR A REASON! 🎉",
+      "",
+      "🕊️ Just like Thala finishes with grace,",
+      "this name completes its destiny.",
+      "",
+      "#WhistlePodu 🦁💛 #ThalaMagic #MSD"
+    ].join('\n')
   ];
 
-  // Find the first successful operation
-  const success = operations.find(op => op.result === 7);
-  if (!success) return null;
-
-  // Build the explanation using the original format,
-  // including letters next to their values
-  const letterPairs = letters.map((char, idx) => `${char}(${letterValues[idx]})`);
-  const explanation = [
-    `"${cleanName}" is special because:`,
-    `🔢 Letter values: ${letterPairs.join(' + ')} = ${lettersSum}`,
-    `🔍 Digits: [${digits.join(', ')}]`,
-    `✨ ${success.type} of digits: ${success.format()}`,
-    '',
-    '🎉 THALA FOR A REASON! 🎉',
-    '#ThalaForAReason #WhistlePodu 🦁💛'
-  ];
-
-  return explanation.join('\n');
+  // Choose a random template
+  const chosenTemplate = templates[Math.floor(Math.random() * templates.length)];
+  return chosenTemplate();
 };
