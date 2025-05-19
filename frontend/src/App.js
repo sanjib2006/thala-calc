@@ -9,6 +9,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -17,7 +19,7 @@ function App() {
     setCopied(false);
 
     try {
-      const response = await fetch('https://thala-calc.onrender.com/check', {
+      const response = await fetch(`${API_URL}/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name }),
