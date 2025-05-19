@@ -17,7 +17,7 @@ function App() {
     setCopied(false);
 
     try {
-      const response = await fetch('http://localhost:5000/check', {
+      const response = await fetch('https://thala-calc.onrender.com/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name }),
